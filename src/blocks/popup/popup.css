@@ -1,0 +1,18 @@
+.popup{
+    margin: 0 auto;
+    padding: 0;
+    height: 100%;
+    transition: visibility .5s, opacity .5s linear;
+    visibility: hidden;
+    opacity: 0;
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+}
+

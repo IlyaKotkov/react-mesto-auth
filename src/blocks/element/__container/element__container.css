@@ -1,0 +1,16 @@
+.element__container {
+    margin: 0;
+    padding: 0;
+    margin-left: 19px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 246px;
+}
+
+@media screen and (max-width: 767px) {
+    .element__container {
+        margin-right: 20px;
+    }
+}

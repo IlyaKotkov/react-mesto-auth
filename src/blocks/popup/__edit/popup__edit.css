@@ -1,0 +1,15 @@
+.popup__edit {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    border: none;
+    margin-top: 48px;
+}
+
+@media screen and (max-width: 1023px) {
+    .popup__edit{
+        margin-top: 75px;
+    }
+}
