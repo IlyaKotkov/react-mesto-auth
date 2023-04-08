@@ -1,0 +1,12 @@
+.register__input {
+    max-width: 358px;
+    margin-top: 30px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #CCCCCC;
+    color: #fff;
+}
+
+.register__input:first-child {
+    margin-top: 0px;
+}

@@ -1,12 +1,16 @@
 import { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Card from './Card';
+import Header from './Header';
+import Footer from './Footer';
 
 function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete }) {
 
   const currentUser = useContext(CurrentUserContext)
 
   return (
+    <>
+    <Header/>
     <main className="page__container">
       <section className="profile">
         <div className="profile__container">
@@ -47,6 +51,8 @@ function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onC
         }
       </section>
     </main>
+    <Footer />
+    </>
   )
 }
 export default Main

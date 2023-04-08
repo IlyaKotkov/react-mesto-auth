@@ -1,6 +1,6 @@
 import logo from '../images/logo.svg';
 
-export default function Header() {
+export default function Header(props) {
   return (
     <header className="header">
       <img
@@ -8,6 +8,7 @@ export default function Header() {
         src={logo}
         alt="логотип сайта 'Mesto'"
       />
+      {props.children}
     </header>
   )
 }

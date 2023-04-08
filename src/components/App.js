@@ -1,30 +1,35 @@
+import React from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
-import { useEffect, useState } from 'react';
 import api from '../utils/Api';
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import Login from "./Login";
+import Register from "./Register"
+import ProtectedRouteElement from './ProtectedRouteElement';
 
 export default function App() {
 
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null)
-  const [currentUser, setCurrentUser] = useState({
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(null)
+  const [currentUser, setCurrentUser] = React.useState({
     "name": '',
     "about": '',
     "avatar": '',
     "_id": '',
     "cohort": ''
   })
-  const [cards, setCards] = useState([])
+  const [cards, setCards] = React.useState([])
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     Promise.all([
       api.getInformation(),
       api.getInitialCards()
@@ -68,7 +73,7 @@ export default function App() {
 
   const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard
 
-  useEffect(() => {
+  React.useEffect(() => {
     function closeByEscape(evt) {
       if (evt.key === 'Escape') {
         closeAllPopups();
@@ -114,20 +119,53 @@ export default function App() {
       .catch(err => console.log(err))
   }
 
+  function handleLogin() {
+    setIsLoggedIn(true);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
-        <Main
-          cards={cards}
-          onEditAvatar={handleEditAvatarClick}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-        />
-        <Footer />
+
+       
+
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedRouteElement isLoggedIn={isLoggedIn}>
+              <Main
+                cards={cards}
+                onEditAvatar={handleEditAvatarClick}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onCardClick={handleCardClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+              />
+              </ProtectedRouteElement>
+            }
+          />
+          <Route path="/sign-up" 
+          element={
+            <Register/>
+          }
+          />
+          <Route path="/sign-in"
+            element={
+              <Login
+                onLogin={handleLogin}
+              />
+            }
+          />
+
+          <Route
+            path="*"
+            element={
+              isLoggedIn ? <Navigate to="/" /> : <Navigate to="/sign-in" />
+            }
+          />
+        </Routes>
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
