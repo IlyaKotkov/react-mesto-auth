@@ -4,7 +4,7 @@
     background-color: black;
     background-image: url(../../../images/EditButton1280.svg);
     border:none;
-    transition: opacity .82s linear;
+    transition: .82s linear;
     opacity: 1;
     cursor: pointer;
     background-repeat: no-repeat;

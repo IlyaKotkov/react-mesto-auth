@@ -1,8 +1,6 @@
 import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
-import Header from "./Header";
+import { Route, Routes, Navigate, useNavigate, } from 'react-router-dom';
 import Main from "./Main";
-import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import api from '../utils/Api';
@@ -12,6 +10,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import Login from "./Login";
 import Register from "./Register"
 import ProtectedRouteElement from './ProtectedRouteElement';
+import * as ApiAuth from '../utils/ApiAuth.js';
 
 export default function App() {
 
@@ -28,6 +27,7 @@ export default function App() {
   })
   const [cards, setCards] = React.useState([])
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const navigate = useNavigate()
 
   React.useEffect(() => {
     Promise.all([
@@ -123,18 +123,41 @@ export default function App() {
     setIsLoggedIn(true);
   }
 
+  function handleLogout() {
+    setIsLoggedIn(false);
+  }
+
+  React.useEffect(() => {
+    tokenCheck();
+    }, [])
+
+  function tokenCheck() {
+    if (localStorage.getItem('token')) {
+      const jwt = localStorage.getItem('token');
+      if (jwt)
+        ApiAuth.getContent(jwt).then((res) => {
+          if (res) {
+            setIsLoggedIn(true);
+            navigate("/", { replace: true })
+          }
+        })
+    }
+  }
+
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
 
-       
+
 
         <Routes>
           <Route
             path="/"
             element={
-              <ProtectedRouteElement isLoggedIn={isLoggedIn}>
-              <Main
+              <ProtectedRouteElement
+                element={Main}
+                isLoggedIn={isLoggedIn}
                 cards={cards}
                 onEditAvatar={handleEditAvatarClick}
                 onEditProfile={handleEditProfileClick}
@@ -142,14 +165,15 @@ export default function App() {
                 onCardClick={handleCardClick}
                 onCardLike={handleCardLike}
                 onCardDelete={handleCardDelete}
+                onExit={handleLogout}
               />
-              </ProtectedRouteElement>
+
             }
           />
-          <Route path="/sign-up" 
-          element={
-            <Register/>
-          }
+          <Route path="/sign-up"
+            element={
+              <Register />
+            }
           />
           <Route path="/sign-in"
             element={

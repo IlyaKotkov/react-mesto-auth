@@ -1,16 +1,26 @@
 import { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { useNavigate } from 'react-router-dom';
 import Card from './Card';
 import Header from './Header';
 import Footer from './Footer';
 
-function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete }) {
+function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete, onExit }) {
 
   const currentUser = useContext(CurrentUserContext)
 
+  const navigate = useNavigate()
+  function signOut(){
+    localStorage.removeItem('jwt');
+    navigate('/signin', {replace: true});
+    onExit()
+  }
+
   return (
     <>
-    <Header/>
+    <Header>
+        <button onClick={signOut} className='profile__exitButton'>Выйти</button>
+    </Header>
     <main className="page__container">
       <section className="profile">
         <div className="profile__container">

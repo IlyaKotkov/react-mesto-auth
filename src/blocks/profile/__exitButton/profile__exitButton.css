@@ -1,0 +1,17 @@
+.profile__exitButton {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #FFFFFF;
+    background-color: black;
+    transition: .82s linear;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.profile__exitButton:hover {
+    opacity: .6;
+}
+

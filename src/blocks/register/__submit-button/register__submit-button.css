@@ -2,7 +2,12 @@
     width: 358px;
     height: 50px;
     margin-top: 216px;
-    
+    cursor: pointer;
+    transition: opacity .82s linear;
     background: #FFFFFF;
     border-radius: 2px;
+}
+
+.register__submit-button:hover  {
+    opacity: .8;
 }
