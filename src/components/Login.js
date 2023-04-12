@@ -41,7 +41,7 @@ export default function Login({onLogin}) {
     <>
       <Header>
 
-        <Link to="/sign-up" className="header__menu">Регистрация</Link>
+        <Link to="/sign-up" className="header__menu">Зарегистрироваться</Link>
 
       </Header>
 

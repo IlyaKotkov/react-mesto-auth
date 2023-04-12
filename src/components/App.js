@@ -28,6 +28,7 @@ export default function App() {
   const [cards, setCards] = React.useState([])
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const navigate = useNavigate()
+  const [email, setEmail] = React.useState("")
 
   React.useEffect(() => {
     Promise.all([
@@ -132,11 +133,11 @@ export default function App() {
     }, [])
 
   function tokenCheck() {
-    if (localStorage.getItem('token')) {
-      const jwt = localStorage.getItem('token');
-      if (jwt)
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
         ApiAuth.getContent(jwt).then((res) => {
           if (res) {
+            setEmail(res.data.email)
             setIsLoggedIn(true);
             navigate("/", { replace: true })
           }
@@ -166,6 +167,7 @@ export default function App() {
                 onCardLike={handleCardLike}
                 onCardDelete={handleCardDelete}
                 onExit={handleLogout}
+                emailUser={email}
               />
 
             }

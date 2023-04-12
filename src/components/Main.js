@@ -5,7 +5,7 @@ import Card from './Card';
 import Header from './Header';
 import Footer from './Footer';
 
-function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete, onExit }) {
+function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete, onExit, emailUser }) {
 
   const currentUser = useContext(CurrentUserContext)
 
@@ -19,7 +19,10 @@ function Main({ cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onC
   return (
     <>
     <Header>
-        <button onClick={signOut} className='profile__exitButton'>Выйти</button>
+      <div className='header__container'>
+      <p className='profile__emailUser'>{ emailUser }</p>
+      <button onClick={signOut} className='profile__exitButton'>Выйти</button>
+      </div>
     </Header>
     <main className="page__container">
       <section className="profile">
