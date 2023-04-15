@@ -52,7 +52,9 @@
 @import url(./blocks/popup/__label/popup__label.css);
 @import url(./blocks/popup/_type/popup_type_delete.css);
 @import url(./blocks/popup/_type/popup_type_editAvatar.css);
-@import url(./blocks/popup/_type/popup_type_info.css);
+@import url(./blocks/popup/__info-message/popup__info-message.css);
+@import url(./blocks/popup/__info-message/_type/popup__info-message_type-cancel.css);
+@import url(./blocks/popup/__info-message/_type/popup__info-message_type-confirm.css);
 
 @import url(./blocks/login/__form/login__form.css);
 @import url(./blocks/login/__input/login__input.css);

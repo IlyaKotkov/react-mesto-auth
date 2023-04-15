@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as ApiAuth from '../utils/ApiAuth.js';
 import { useState } from "react";
 
-export default function Login({onLogin}) {
+export default function Login({onLogin, handleShowInfoMessage}) {
 
   const [formValue, setFormValue] = useState({
     email: '',
@@ -30,10 +30,19 @@ export default function Login({onLogin}) {
         if (data.token){
           setFormValue({email: '', password: ''});
           onLogin();
+          handleShowInfoMessage({
+            text: "Вы успешно вошли!",
+            isSuccess: true
+          })
           navigate("/", {replace: true});
         }
       })
-      .catch(err => console.log(err));
+      .catch(() => {
+        handleShowInfoMessage({
+          text: "Что-то пошло не так! Попробуйте еще раз.",
+          isSucces: false,
+        })
+      });
   }
 
 

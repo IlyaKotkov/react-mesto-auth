@@ -11,6 +11,7 @@ import Login from "./Login";
 import Register from "./Register"
 import ProtectedRouteElement from './ProtectedRouteElement';
 import * as ApiAuth from '../utils/ApiAuth.js';
+import InfoTooltip from './InfoTooltip';
 
 export default function App() {
 
@@ -27,8 +28,9 @@ export default function App() {
   })
   const [cards, setCards] = React.useState([])
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const navigate = useNavigate()
   const [email, setEmail] = React.useState("")
+  const [infoMessage, setInfoMessage] = React.useState(null);
+  const navigate = useNavigate()
 
   React.useEffect(() => {
     Promise.all([
@@ -65,11 +67,16 @@ export default function App() {
       .catch(err => console.log(err))
   }
 
+  function handleShowInfoMessage(message) {
+    setInfoMessage(message);
+  }
+
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null)
+    setInfoMessage(null);
   }
 
   const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard
@@ -174,13 +181,16 @@ export default function App() {
           />
           <Route path="/sign-up"
             element={
-              <Register />
+              <Register 
+              handleShowInfoMessage={handleShowInfoMessage}
+              />
             }
           />
           <Route path="/sign-in"
             element={
               <Login
                 onLogin={handleLogin}
+                handleShowInfoMessage={handleShowInfoMessage}
               />
             }
           />
@@ -214,6 +224,11 @@ export default function App() {
         <ImagePopup
           onClose={closeAllPopups}
           card={selectedCard}
+        />
+
+        <InfoTooltip
+          onClose={closeAllPopups}
+          message={infoMessage}
         />
 
       </div>

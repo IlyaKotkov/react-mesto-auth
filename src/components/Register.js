@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as ApiAuth from '../utils/ApiAuth.js';
 import { useState } from "react";
 
-export default function Register() {
+export default function Register({handleShowInfoMessage}) {
 
   const [formValue, setFormValue] = useState({
     email: '',
@@ -26,9 +26,19 @@ export default function Register() {
     e.preventDefault()
     if(formValue.password) {
       const {email, password} = formValue;
-      ApiAuth.Register(email,password).then((res) => {
+      ApiAuth.Register(email,password).then(() => {
+        handleShowInfoMessage({
+          text: "Вы успешно зарегистрировались!",
+          isSuccess: true
+        })
         navigate('/Login', {replace: true})
       })
+      .catch(() => {
+        handleShowInfoMessage({
+          text: "Что-то пошло не так! Попробуйте еще раз.",
+          isSuccess: false,
+        });
+      });
     }
   }
 
