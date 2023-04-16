@@ -5,7 +5,7 @@ class Api {
         this._headers = options.headers;
     }
 
-    _response(res) {
+    _getResponseData(res) {
         if (res.ok) {
             return res.json();
         }
@@ -17,7 +17,7 @@ class Api {
             method: 'GET',
             headers: this._headers
         });
-        return this._response(res);
+        return this._getResponseData(res);
     }
 
     async getInformation() {
@@ -25,7 +25,7 @@ class Api {
             method: 'GET',
             headers: this._headers
         });
-        return this._response(res);
+        return this._getResponseData(res);
     }
 
     async editUserInfo(data) {
@@ -37,7 +37,7 @@ class Api {
                 about: data.about
             })
         });
-        return this._response(res);
+        return this._getResponseData(res);
     }
 
     async addCard(data) {
@@ -46,7 +46,7 @@ class Api {
             headers: this._headers,
             body: JSON.stringify(data),
         })
-        return this._response(res)
+        return this._getResponseData(res)
     }
 
     async setLike(cardId) {
@@ -54,7 +54,7 @@ class Api {
             method: "PUT",
             headers: this._headers,
         })
-        return this._response(res)
+        return this._getResponseData(res)
     }
 
     async deleteLike(cardId) {
@@ -62,7 +62,7 @@ class Api {
             method: "DELETE",
             headers: this._headers,
         })
-        return this._response(res)
+        return this._getResponseData(res)
     }
 
     async deleteCard(cardId) {
@@ -70,7 +70,7 @@ class Api {
             method: "DELETE",
             headers: this._headers,
         })
-        return this._response(res)
+        return this._getResponseData(res)
     }
 
     async editAvatar(data) {
@@ -81,7 +81,7 @@ class Api {
                 avatar: data
             })
         });
-        return this._response(res);
+        return this._getResponseData(res);
     };
 
     changeLikeCardStatus(cardId, isLiked) {

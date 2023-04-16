@@ -33,16 +33,18 @@ export default function App() {
   const navigate = useNavigate()
 
   React.useEffect(() => {
-    Promise.all([
-      api.getInformation(),
-      api.getInitialCards()
-    ])
-      .then((values) => {
-        setCurrentUser(values[0])
-        setCards([...values[1]])
-      })
-      .catch(err => console.log(err))
-  }, []);
+    if(isLoggedIn){
+      Promise.all([
+        api.getInformation(),
+        api.getInitialCards()
+      ])
+        .then((values) => {
+          setCurrentUser(values[0])
+          setCards([...values[1]])
+        })
+        .catch(err => console.log(err))
+    }
+  }, [isLoggedIn]);
 
   const handleCardClick = (card) => {
     setSelectedCard(card)
@@ -79,22 +81,6 @@ export default function App() {
     setInfoMessage(null);
   }
 
-  const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard
-
-  React.useEffect(() => {
-    function closeByEscape(evt) {
-      if (evt.key === 'Escape') {
-        closeAllPopups();
-      }
-    }
-    if (isOpen) {
-      document.addEventListener('keydown', closeByEscape);
-      return () => {
-        document.removeEventListener('keydown', closeByEscape);
-      }
-    }
-  }, [isOpen])
-
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
@@ -127,7 +113,8 @@ export default function App() {
       .catch(err => console.log(err))
   }
 
-  function handleLogin() {
+  function handleLogin(email) {
+    setEmail(email)
     setIsLoggedIn(true);
   }
 
@@ -136,10 +123,10 @@ export default function App() {
   }
 
   React.useEffect(() => {
-    tokenCheck();
+    checkToken();
     }, [])
 
-  function tokenCheck() {
+  function checkToken() {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
         ApiAuth.getContent(jwt).then((res) => {
@@ -149,6 +136,7 @@ export default function App() {
             navigate("/", { replace: true })
           }
         })
+        .catch(err => console.log(err))
     }
   }
 
@@ -191,6 +179,7 @@ export default function App() {
               <Login
                 onLogin={handleLogin}
                 handleShowInfoMessage={handleShowInfoMessage}
+                setEmail={setEmail}
               />
             }
           />

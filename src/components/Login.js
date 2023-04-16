@@ -26,16 +26,16 @@ export default function Login({onLogin, handleShowInfoMessage}) {
       return
     }
     ApiAuth.authorize(formValue.email, formValue.password)
-      .then((data) => {
-        if (data.token){
+      .then(data => {
+        if (data.token) localStorage.setItem('token', data.token);
           setFormValue({email: '', password: ''});
-          onLogin();
+          onLogin(formValue.email);
+          console.log(formValue.email)
           handleShowInfoMessage({
             text: "Вы успешно вошли!",
             isSuccess: true
           })
           navigate("/", {replace: true});
-        }
       })
       .catch(() => {
         handleShowInfoMessage({
