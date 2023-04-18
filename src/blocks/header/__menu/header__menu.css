@@ -8,3 +8,13 @@
     color: #FFFFFF;
     text-decoration: none;
 }
+
+@media screen and (max-width: 767px) {
+    .header__menu {
+        font-size: 14px;
+        line-height: 17px;
+        display: flex;
+        align-items: center;
+        margin-right: 30px;
+    }
+}

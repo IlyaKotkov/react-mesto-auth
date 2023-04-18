@@ -16,15 +16,9 @@ export const register = (email, password) => {
         },
         body: JSON.stringify({email, password}),
     })
-    .then((response) => {
-        try {
-          if (response.status === 200){
-            return response.json();
-          }
-        } catch(e){
-          return getResponseData(e)
-        }
-      })
+    .then(response => {
+      return getResponseData(response)
+  }) 
 }
 
 
@@ -37,15 +31,15 @@ export const authorize = (email, password) => {
     },
     body: JSON.stringify({email, password})
   })
-  .then((response => response.json()))
+  .then(response => {
+    return getResponseData(response)
+  })
   .then((data) => {
     if (data.token){
       localStorage.setItem('jwt', data.token);
       return data;
     }
-    console.log(data)
   })
-  .catch(err => console.log(err))
 };
 
 export const getContent = (token) => {

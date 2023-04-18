@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as ApiAuth from '../utils/ApiAuth.js';
 import { useState } from "react";
 
-export default function Login({onLogin, handleShowInfoMessage}) {
+export default function Login({ onLogin, handleShowInfoMessage }) {
 
   const [formValue, setFormValue] = useState({
     email: '',
@@ -12,7 +12,7 @@ export default function Login({onLogin, handleShowInfoMessage}) {
   const navigate = useNavigate()
 
   function handleChange(e) {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
 
     setFormValue({
       ...formValue,
@@ -22,27 +22,29 @@ export default function Login({onLogin, handleShowInfoMessage}) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!formValue.email || !formValue.password){
+    if (!formValue.email || !formValue.password) {
       return
     }
     ApiAuth.authorize(formValue.email, formValue.password)
       .then(data => {
-        if (data.token) localStorage.setItem('token', data.token);
-          setFormValue({email: '', password: ''});
+        if (data.token) {
+          localStorage.setItem('token', data.token)
+          setFormValue({ email: '', password: '' });
           onLogin(formValue.email);
-          console.log(formValue.email)
           handleShowInfoMessage({
             text: "Вы успешно вошли!",
             isSuccess: true
           })
-          navigate("/", {replace: true});
+          navigate("/", { replace: true });
+        } else {
+          onLogin(false);
+          handleShowInfoMessage({
+            text: "Что-то пошло не так! Попробуйте еще раз.",
+            isSuccess: false,
+          })
+      }
       })
-      .catch(() => {
-        handleShowInfoMessage({
-          text: "Что-то пошло не так! Попробуйте еще раз.",
-          isSucces: false,
-        })
-      });
+      .catch(err => console.log(err))
   }
 
 
@@ -50,7 +52,7 @@ export default function Login({onLogin, handleShowInfoMessage}) {
     <>
       <Header>
 
-        <Link to="/sign-up" className="header__menu">Зарегистрироваться</Link>
+        <Link to="/sign-up" className="header__menu">Регистрация</Link>
 
       </Header>
 
