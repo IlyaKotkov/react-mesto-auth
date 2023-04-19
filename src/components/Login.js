@@ -37,14 +37,18 @@ export default function Login({ onLogin, handleShowInfoMessage }) {
           })
           navigate("/", { replace: true });
         } else {
-          onLogin(false);
           handleShowInfoMessage({
             text: "Что-то пошло не так! Попробуйте еще раз.",
             isSuccess: false,
           })
-      }
+        }
       })
-      .catch(err => console.log(err))
+      .catch((err) => {
+        handleShowInfoMessage({
+          text: "Что-то пошло не так! Попробуйте еще раз.",
+          isSucces: false,
+        })
+      });
   }
 
 
